@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class File {
 	private int fileSize;
 	private int fileId;
@@ -9,9 +7,8 @@ public class File {
 		this.fileId = fileId;
 		this.fileSize = fileSize;
 	}
-
 	public Knot getKnot() {
-		return knots.nextKnot();
+		return knots.getNextKnot();
 	}
 	
 	public int getId() {

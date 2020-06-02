@@ -1,4 +1,5 @@
 public class Knot {
+
 	private int knotId;
 	private int fileId;
 	private Knot knot;
@@ -20,7 +21,7 @@ public class Knot {
 		knot = new Knot(fileId, knotId);
 	}
 
-	public Knot nextKnot() {
+	public Knot getNextKnot() {
 		return knot;
 	}
 
