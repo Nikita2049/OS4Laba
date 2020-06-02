@@ -51,12 +51,12 @@ public class DataManager {
 		knot.setFile(fileId);
 	}
 	
-	public void removeKnot(int fileId) {
-		for(int i = 0; i < Block.memory.size(); i++) {
-			if(Block.memory.get(i).getId() == fileId) {
+	public void removeKnots(int fileId) {
+		for(int i=0; i<Block.memory.size(); i++) {
+			if (Block.memory.get(i).getId() == fileId) {
 				Block.memory.get(i).setFile(-1);
 			}
 		}
 		Block.memory.clear();
-	}
+	}	
 }
