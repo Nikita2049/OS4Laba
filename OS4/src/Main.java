@@ -1,111 +1,149 @@
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Main {
-	private JFrame frame;
-	static JTextField textFieldId;
-	private static JPanel panel;
-	public static JTextArea textAreaWindow;
-	private DataManager dataManager;
-	private Block Memory = new Block();
-	private JTextField textFieldSize;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main window = new Main();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private JFrame frame;
+    static JTextField textId;
+    private static JPanel panel;
+    public static JTextArea textAreaWindow;
+    private DataManager dataManager= new DataManager();;
+    private Block Memory = new Block();
+    private JTextField textFieldSize;
+    private JTextField textFieldName;
+    Graphics g;
 
-	/**
-	 * Create the application.
-	 */
-	public Main() {
-		initialize();
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Main window = new Main();
+                    window.frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 796, 773);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+    /**
+     * Create the application.
+     */
+    public Main() {
+        initialize();
+    }
 
-		panel = new Manager(Memory);
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 480, 122);
-		frame.getContentPane().add(panel);
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize() {
+        frame = new JFrame();
+        frame.setBounds(100, 100, 613, 535);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
 
-		textFieldId = new JTextField();
-		textFieldId.setBounds(549, 46, 66, 20);
-		frame.getContentPane().add(textFieldId);
-		textFieldId.setColumns(10);
+        panel = new Manager(Memory);
+        panel.setBounds(10, 11, 401, 141);
+        frame.getContentPane().add(panel);
 
-		JLabel labelWrite = new JLabel("Id");
-		labelWrite.setBounds(501, 52, 26, 14);
-		frame.getContentPane().add(labelWrite);
+        JLabel labelWrite = new JLabel("Id");
+        labelWrite.setBounds(423, 11, 26, 14);
+        frame.getContentPane().add(labelWrite);
+        textId = new JTextField();
+        textId.setBounds(514, 11, 51, 14);
+        textId.setColumns(10);
+        frame.getContentPane().add(textId);
 
-		JLabel labelCMD = new JLabel("Output");
-		labelCMD.setBounds(239, 143, 50, 14);
-		frame.getContentPane().add(labelCMD);
+        JLabel lblSize = new JLabel("Размер файла");
+        lblSize.setBounds(423, 38, 106, 14);
+        frame.getContentPane().add(lblSize);
+        textFieldSize = new JTextField();
+        textFieldSize.setColumns(10);
+        textFieldSize.setBounds(514, 38, 51, 14);
+        frame.getContentPane().add(textFieldSize);
 
-		textAreaWindow = new JTextArea();
-		textAreaWindow.setFont(new Font("Arial", Font.BOLD, 12));
-		textAreaWindow.setBackground(Color.WHITE);
-		textAreaWindow.setForeground(Color.BLACK);
-		textAreaWindow.setEnabled(false);
-		textAreaWindow.setBounds(10, 167, 480, 559);
-		frame.getContentPane().add(textAreaWindow);
+        JLabel lblName = new JLabel("Имя файла");
+        lblName.setBounds(423, 65, 66, 14);
+        frame.getContentPane().add(lblName);
+        textFieldName = new JTextField();
+        textFieldName.setColumns(10);
+        textFieldName.setBounds(514, 65, 51, 14);
+        frame.getContentPane().add(textFieldName);
 
-		dataManager = new DataManager();
+        JLabel labelCMD = new JLabel("Вывод");
+        labelCMD.setBounds(10, 156, 126, 14);
+        frame.getContentPane().add(labelCMD);
 
-		JButton buttonCreate = new JButton("Create");
-		buttonCreate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dataManager.CreateFile(Integer.parseInt(textFieldSize.getText()));
-				panel.repaint();
-			}
-		});
-		buttonCreate.setBounds(625, 10, 126, 23);
-		frame.getContentPane().add(buttonCreate);
+        textAreaWindow = new JTextArea();
+        textAreaWindow.setForeground(Color.GRAY);
+        textAreaWindow.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 16));
+        textAreaWindow.setEnabled(false);
+        textAreaWindow.setBounds(10, 176, 401, 299);
+        frame.getContentPane().add(textAreaWindow);
 
-		JButton buttonDel = new JButton("Delete");
-		buttonDel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dataManager.DeleteFile(Integer.parseInt(textFieldId.getText()));
-				panel.repaint();
-			}
-		});
-		buttonDel.setBounds(625, 44, 126, 23);
-		frame.getContentPane().add(buttonDel);
+        JButton buttonCreate = new JButton("Добавить файл");
+        buttonCreate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (textFieldSize.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Заполните поле Размер");
+                    return;
+                }
+                if (textFieldName.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Заполните поле Имя");
+                    return;
+                }
+                dataManager.CreateFile(Integer.parseInt(textFieldSize.getText()), textFieldName.getText());
+                dataManager.cancelChoiceFile();
+                panel.repaint();
 
-		JLabel lblSize = new JLabel("Size");
-		lblSize.setBounds(500, 14, 50, 14);
-		frame.getContentPane().add(lblSize);
+            }
+        });
+        buttonCreate.setBounds(439, 147, 126, 23);
+        frame.getContentPane().add(buttonCreate);
 
-		textFieldSize = new JTextField();
-		textFieldSize.setColumns(10);
-		textFieldSize.setBounds(549, 12, 66, 20);
-		frame.getContentPane().add(textFieldSize);
-	}
+        JButton buttonDel = new JButton("Удалить файл");
+        buttonDel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (textId.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Заполните поле id");
+                    return;
+                }
+                dataManager.DeleteFile(Integer.parseInt(textId.getText()));
+                dataManager.cancelChoiceFile();
+                panel.repaint();
+
+            }
+        });
+        buttonDel.setBounds(439, 205, 126, 23);
+        frame.getContentPane().add(buttonDel);
+
+        JButton buttonChoose = new JButton("Выбрать файл");
+        buttonChoose.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (textId.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Заполните поле id");
+                    return;
+                }
+                dataManager.ChoiceFile(Integer.parseInt(textId.getText()));
+                panel.repaint();
+            }
+        });
+        buttonChoose.setBounds(439, 176, 126, 23);
+        frame.getContentPane().add(buttonChoose);
+    }
+
 }

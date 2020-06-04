@@ -1,31 +1,30 @@
 public class Knot {
 
-	private int knotId;
-	private int fileId;
-	private Knot knot;
+    private int knotId;
+    private boolean selectFlag;
+    private Knot knot;
 
-	public Knot(int fileId, int knotId) {
-		this.fileId = fileId;
-		this.knotId = knotId;
-	}
+    public Knot(int knotId) {
+        this.knotId = knotId;
+    }
 
-	public void setFile(int fileId) {
-		this.fileId = fileId;
-	}
+    public void setKnot(int knotId) {
+    	knot = new Knot(knotId);
+    }
 
-	public int getKnotId() {
-		return knotId;
-	}
-	
-	public void setKnot(int fileId, int knotId) {
-		knot = new Knot(fileId, knotId);
-	}
+    public int getKnotId() {
+        return knotId;
+    }
 
-	public Knot getNextKnot() {
-		return knot;
-	}
+    public Knot nextKnot() {
+        return knot;
+    }
 
-	public int getId() {
-		return fileId;
-	}
+    public boolean getSelectFlag() {
+        return selectFlag;
+    }
+
+    public void setSelectFlag(boolean selectFlag) {
+        this.selectFlag = selectFlag;
+    }
 }
